@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, TrendingUp, Bell, FileText, Bot, Globe, Check } from "lucide-react";
-import heroImg from "../assets/hero.jpg";
+import { Sparkles, TrendingUp, Bell, FileText, Bot, Check } from "lucide-react";
+import Hero from "@/components/Hero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,55 +48,8 @@ const plans = [
 function Landing() {
   return (
     <main>
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-glow" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
-          <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-accent" />
-              Built for global creators in Southeast Asia
-            </div>
-            <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-              Cross-border taxes,{" "}
-              <span className="text-gradient">solved by AI.</span>
-            </h1>
-            <p className="max-w-xl text-lg text-muted-foreground">
-              TaxBridge AI tracks your international income, estimates your tax in real time, and tells you exactly what to file — so you can focus on the work that pays.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                to="/auth"
-                className="group inline-flex items-center gap-2 rounded-xl bg-gradient-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-[1.02]"
-              >
-                Get Started Free
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-              <a
-                href="#features"
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-semibold transition hover:bg-secondary"
-              >
-                See features
-              </a>
-            </div>
-            <div className="flex items-center gap-6 pt-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-2"><Globe className="h-4 w-4 text-teal" /> 50+ countries</div>
-              <div className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> No card required</div>
-            </div>
-          </div>
+      <Hero />
 
-          <div className="relative animate-float">
-            <div className="absolute -inset-8 bg-gradient-primary opacity-20 blur-3xl" aria-hidden />
-            <img
-              src={heroImg}
-              alt="TaxBridge AI dashboard preview"
-              width={1536}
-              height={1024}
-              className="relative rounded-3xl border border-border shadow-glow"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* FEATURES */}
       <section id="features" className="mx-auto max-w-7xl px-6 py-24">
