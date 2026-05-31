@@ -190,7 +190,20 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+
+  /* Global glassmorphism — every card-surfaced element gets a frosted look */
+  .dark .bg-card,
+  .dark .bg-popover {
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-color: oklch(1 0 0 / 0.08);
+  }
+  .dark .bg-secondary {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
 }
+
 
 @layer utilities {
   .bg-gradient-hero { background-image: var(--gradient-hero); }
