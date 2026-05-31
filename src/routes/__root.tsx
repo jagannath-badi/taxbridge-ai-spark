@@ -37,10 +37,15 @@ export const Route = createRootRoute({
         content:
           "TaxBridge AI helps freelancers and digital nomads automate cross-border tax compliance, track international payments, and stay ahead of deadlines.",
       },
-      { property: "og:title", content: "TaxBridge AI — Tax & payments for global creators" },
-      { property: "og:description", content: "Automated tax compliance and income tracking for freelancers worldwide." },
+      { property: "og:title", content: "TaxBridge AI — Simplifying global payments & taxes for creators" },
+      { property: "og:description", content: "TaxBridge AI simplifies global payments and taxes for freelance creators." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "TaxBridge AI — Simplifying global payments & taxes for creators" },
+      { name: "description", content: "TaxBridge AI simplifies global payments and taxes for freelance creators." },
+      { name: "twitter:description", content: "TaxBridge AI simplifies global payments and taxes for freelance creators." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ea17369-5ded-493e-b5fb-1e359b62b04d/id-preview-ddaa1a71--3dff6ad4-907c-45e7-9575-df2d3cc7e558.lovable.app-1777685333712.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ea17369-5ded-493e-b5fb-1e359b62b04d/id-preview-ddaa1a71--3dff6ad4-907c-45e7-9575-df2d3cc7e558.lovable.app-1777685333712.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
