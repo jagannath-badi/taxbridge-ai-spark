@@ -74,8 +74,10 @@ function Landing() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="border-y border-border bg-secondary/40 py-24">
+      <section className="relative py-24">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="mx-auto max-w-7xl px-6">
+
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-4xl font-bold tracking-tight">Loved by creators across the region</h2>
           </div>
@@ -96,7 +98,9 @@ function Landing() {
             ))}
           </div>
         </div>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       </section>
+
 
       {/* PRICING */}
       <section id="pricing" className="mx-auto max-w-5xl px-6 py-24">
@@ -148,7 +152,7 @@ function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border bg-card/40">
+      <footer className="border-t border-white/10 bg-white/[0.02] backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-10 md:flex-row">
           <div className="flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-primary">

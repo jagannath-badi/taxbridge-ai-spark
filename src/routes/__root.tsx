@@ -80,7 +80,14 @@ function RootComponent() {
   return (
     <ThemeProvider>
       <SessionProvider>
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="dark relative min-h-screen text-foreground">
+          {/* Global animated gradient mesh background */}
+          <div className="pointer-events-none fixed inset-0 -z-10 bg-[#070418]">
+            <div className="absolute -top-1/3 -left-1/4 h-[80vmax] w-[80vmax] rounded-full bg-[radial-gradient(circle_at_center,#6d28d9,transparent_60%)] opacity-60 blur-3xl animate-mesh-1" />
+            <div className="absolute -bottom-1/3 -right-1/4 h-[80vmax] w-[80vmax] rounded-full bg-[radial-gradient(circle_at_center,#1d4ed8,transparent_60%)] opacity-55 blur-3xl animate-mesh-2" />
+            <div className="absolute top-1/3 right-1/4 h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle_at_center,#4f46e5,transparent_55%)] opacity-40 blur-3xl animate-mesh-3" />
+            <div className="absolute bottom-1/4 left-1/3 h-[45vmax] w-[45vmax] rounded-full bg-[radial-gradient(circle_at_center,#06b6d4,transparent_60%)] opacity-25 blur-3xl animate-mesh-1" />
+          </div>
           <Navbar />
           <Outlet />
         </div>
@@ -88,3 +95,4 @@ function RootComponent() {
     </ThemeProvider>
   );
 }
+
