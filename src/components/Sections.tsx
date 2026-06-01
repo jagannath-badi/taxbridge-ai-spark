@@ -212,21 +212,6 @@ export function ProductPreview() {
           </div>
 
           {/* Floating chips */}
-          {[
-            { text: "AI Tax Estimate", cls: "left-[-2%] top-10", delay: "0s" },
-            { text: "Multi-currency", cls: "right-[-2%] top-24", delay: "0.4s" },
-            { text: "Deadline alerts", cls: "left-[6%] bottom-8", delay: "0.8s" },
-          ].map((c) => (
-            <div
-              key={c.text}
-              className="absolute hidden rounded-full border border-white/15 bg-[#0a0a0f]/80 px-3 py-1.5 text-xs font-medium text-white shadow-[0_0_22px_rgba(139,92,246,0.5)] backdrop-blur-xl animate-float md:inline-flex"
-              style={{ animationDelay: c.delay, ...({} as any) } as any}
-            >
-              <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-violet-400" />
-              {c.text}
-              <span className={`pointer-events-none absolute ${c.cls}`} />
-            </div>
-          ))}
           <span className="absolute left-[-2%] top-10 hidden rounded-full border border-white/15 bg-[#0a0a0f]/80 px-3 py-1.5 text-xs font-medium text-white shadow-[0_0_22px_rgba(139,92,246,0.5)] backdrop-blur-xl md:inline-flex">
             <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-violet-400" /> AI Tax Estimate
           </span>
