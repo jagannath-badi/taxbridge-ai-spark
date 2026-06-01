@@ -88,9 +88,9 @@ function Stat({ value, suffix, label, prefix }: { value: number; suffix?: string
   const { ref, value: v } = useCountUp(value);
   return (
     <div className="text-center">
-      <div ref={ref} className="font-display text-4xl font-bold text-white md:text-5xl">
+      <span ref={ref} className="block font-display text-4xl font-bold text-white md:text-5xl">
         {prefix}{v.toLocaleString()}{suffix}
-      </div>
+      </span>
       <div className="mt-2 text-xs uppercase tracking-[0.18em] text-white/50">{label}</div>
     </div>
   );

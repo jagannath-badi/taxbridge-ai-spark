@@ -278,4 +278,43 @@
   .animate-mesh-2 { animation: mesh-drift-2 22s ease-in-out infinite; }
   .animate-mesh-3 { animation: mesh-drift-3 26s ease-in-out infinite; }
 
-}
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 38s linear infinite; }
+
+  @keyframes shine {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @keyframes line-grow {
+    to { transform: scaleX(1); }
+  }
+
+  /* Navbar link underline */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -4px;
+    height: 2px; width: 100%;
+    background: linear-gradient(90deg, #a78bfa, #ec4899);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-float,
+    .animate-pulse-glow,
+    .animate-mesh-1,
+    .animate-mesh-2,
+    .animate-mesh-3,
+    .animate-spin-slow,
+    .animate-spin-reverse,
+    .animate-particle { animation: none !important; }
+  }
