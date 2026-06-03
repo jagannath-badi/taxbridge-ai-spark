@@ -1,7 +1,7 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import {
-  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText, Loader2, Sparkles,
+  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText,
 } from "lucide-react";
 import { useSession } from "../lib/session";
 import { AISmartSummary } from "../components/AISmartSummary";
