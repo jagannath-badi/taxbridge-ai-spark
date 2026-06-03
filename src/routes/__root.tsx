@@ -4,6 +4,10 @@ import { ThemeProvider } from "../lib/theme";
 import { SessionProvider } from "../lib/session";
 import { Navbar } from "../components/Navbar";
 import { ScrollProgress } from "../components/ScrollProgress";
+import { AIChat } from "../components/AIChat";
+import { CommandPalette } from "../components/CommandPalette";
+import { AIAlertToaster } from "../components/AIAlertToaster";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -85,6 +89,10 @@ function RootComponent() {
           <ScrollProgress />
           <Navbar />
           <Outlet />
+          <AIChat />
+          <CommandPalette />
+          <AIAlertToaster />
+          <Toaster theme="dark" position="top-right" />
         </div>
       </SessionProvider>
     </ThemeProvider>

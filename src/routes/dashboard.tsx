@@ -1,9 +1,10 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import {
-  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText,
+  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText, Loader2, Sparkles,
 } from "lucide-react";
 import { useSession } from "../lib/session";
+import { AISmartSummary } from "../components/AISmartSummary";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -83,8 +84,11 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* AI Smart Summary */}
+      <AISmartSummary country={user.country} totalIncome={totalIncome} taxEstimate={taxEstimate} />
+
       {/* Overview cards */}
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="mt-6 grid gap-5 md:grid-cols-3">
         <Stat icon={Wallet} label="Total Income (YTD)" value={`$${totalIncome.toLocaleString()}`} delta="+12.4%" trend="up" />
         <Stat icon={TrendingUp} label="Estimated Tax" value={`$${taxEstimate.toLocaleString()}`} delta={`${taxRate}% rate`} trend="neutral" />
         <Stat icon={AlertTriangle} label="Active Alerts" value={`${alerts.length}`} delta="1 high priority" trend="down" />
