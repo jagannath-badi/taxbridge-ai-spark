@@ -1,10 +1,12 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import {
-  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText,
+  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText, Sparkles, Loader2,
 } from "lucide-react";
 import { useSession } from "../lib/session";
 import { AISmartSummary } from "../components/AISmartSummary";
+import { streamChat } from "../lib/streamChat";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
