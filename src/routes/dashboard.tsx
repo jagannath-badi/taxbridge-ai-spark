@@ -54,9 +54,43 @@ function Dashboard() {
   const taxEstimate = 7320;
   const taxRate = ((taxEstimate / totalIncome) * 100).toFixed(1);
 
+  const parseDoc = async (index: number) => {
+    const d = docs[index];
+    if (!d || d.parsing) return;
+    setDocs((p) => p.map((x, i) => (i === index ? { ...x, parsing: true, insight: "" } : x)));
+    try {
+      await streamChat({
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are an AI document parser for a tax app. Given only a filename, infer the likely document type (invoice, receipt, tax form, bank statement), what fields it likely contains, and 1 concrete tax-relevant action for a freelancer. Respond in 2 short sentences max. No preamble.",
+          },
+          { role: "user", content: `Filename: ${d.name}. Country: ${user.country}.` },
+        ],
+        onToken: (t) =>
+          setDocs((p) => p.map((x, i) => (i === index ? { ...x, insight: (x.insight ?? "") + t } : x))),
+      });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to parse document");
+    } finally {
+      setDocs((p) => p.map((x, i) => (i === index ? { ...x, parsing: false } : x)));
+    }
+  };
+
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
-    setDocs((prev) => [...prev, ...Array.from(files).map((f) => ({ name: f.name, size: f.size }))]);
+    const newDocs = Array.from(files).map((f) => ({ name: f.name, size: f.size }));
+    setDocs((prev) => {
+      const next = [...prev, ...newDocs];
+      // auto-parse new ones
+      newDocs.forEach((_, i) => {
+        const idx = prev.length + i;
+        setTimeout(() => parseDoc(idx), 300 + i * 200);
+      });
+      return next;
+    });
+    toast("AI is analyzing your documents…", { icon: <Sparkles className="h-4 w-4 text-violet-300" /> });
   };
 
   const send = () => {
