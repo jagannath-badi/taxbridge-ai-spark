@@ -36,7 +36,8 @@ type Msg = { role: "user" | "ai"; text: string };
 
 function Dashboard() {
   const { user } = useSession();
-  const [docs, setDocs] = useState<{ name: string; size: number }[]>([
+  type Doc = { name: string; size: number; insight?: string; parsing?: boolean };
+  const [docs, setDocs] = useState<Doc[]>([
     { name: "Invoice-Acme-Apr.pdf", size: 184320 },
     { name: "Receipt-Office.png", size: 56123 },
   ]);
