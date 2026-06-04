@@ -79,15 +79,8 @@ function Dashboard() {
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
     const newDocs = Array.from(files).map((f) => ({ name: f.name, size: f.size }));
-    setDocs((prev) => {
-      const next = [...prev, ...newDocs];
-      // auto-parse new ones
-      newDocs.forEach((_, i) => {
-        const idx = prev.length + i;
-        setTimeout(() => parseDoc(idx), 300 + i * 200);
-      });
-      return next;
-    });
+    setDocs((prev) => [...prev, ...newDocs]);
+    newDocs.forEach((d, i) => setTimeout(() => parseDocByName(d.name), 300 + i * 200));
     toast("AI is analyzing your documents…", { icon: <Sparkles className="h-4 w-4 text-violet-300" /> });
   };
 
