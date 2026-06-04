@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Mail, Lock, User, Globe } from "lucide-react";
+import { toast } from "sonner";
 import { useSession } from "../lib/session";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -22,18 +24,40 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState(countries[0]);
   const [profession, setProfession] = useState("");
-  const { login } = useSession();
+  const [busy, setBusy] = useState(false);
+  const { userId } = useSession();
   const navigate = useNavigate();
 
-  const submit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (userId) navigate({ to: "/dashboard" });
+  }, [userId, navigate]);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login({
-      name: name || email.split("@")[0] || "Creator",
-      email,
-      country,
-      profession,
-    });
-    navigate({ to: "/dashboard" });
+    setBusy(true);
+    try {
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/dashboard`,
+            data: { full_name: name, country, creator_type: profession },
+          },
+        });
+        if (error) throw error;
+        toast.success("Account created!");
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        toast.success("Welcome back!");
+      }
+      navigate({ to: "/dashboard" });
+    } catch (err: any) {
+      toast.error(err?.message ?? "Authentication failed");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -74,7 +98,7 @@ function AuthPage() {
             <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-transparent outline-none" placeholder="you@email.com" />
           </Field>
           <Field icon={Lock} label="Password">
-            <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-transparent outline-none" placeholder="••••••••" />
+            <input required type="password" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-transparent outline-none" placeholder="••••••••" />
           </Field>
           {mode === "signup" && (
             <>
@@ -91,20 +115,10 @@ function AuthPage() {
             </>
           )}
 
-          <button type="submit" className="w-full rounded-xl bg-gradient-primary py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-[1.01]">
-            {mode === "signup" ? "Create account" : "Sign in"}
+          <button type="submit" disabled={busy} className="w-full rounded-xl bg-gradient-primary py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-[1.01] disabled:opacity-60">
+            {busy ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
           </button>
         </form>
-
-        <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-          <div className="h-px flex-1 bg-border" />
-          OR
-          <div className="h-px flex-1 bg-border" />
-        </div>
-
-        <button className="w-full rounded-xl border border-border bg-card py-3 text-sm font-medium transition hover:bg-secondary">
-          Continue with Google
-        </button>
       </div>
     </main>
   );
