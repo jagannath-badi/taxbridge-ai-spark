@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Sparkles, LogOut } from "lucide-react";
+import { Sparkles, LogOut, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSession } from "../lib/session";
+import { useTheme } from "../lib/theme";
 
 export function Navbar() {
   const { user, logout } = useSession();
