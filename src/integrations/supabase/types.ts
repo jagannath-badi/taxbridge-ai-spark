@@ -14,7 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          file_name: string
+          file_url: string | null
+          id: string
+          parse_status: string
+          parsed_data: Json | null
+          uploaded_at: string
+          user_id: string
+        }
+        Insert: {
+          file_name: string
+          file_url?: string | null
+          id?: string
+          parse_status?: string
+          parsed_data?: Json | null
+          uploaded_at?: string
+          user_id: string
+        }
+        Update: {
+          file_name?: string
+          file_url?: string | null
+          id?: string
+          parse_status?: string
+          parsed_data?: Json | null
+          uploaded_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      income_sources: {
+        Row: {
+          amount: number
+          category: string | null
+          country_of_source: string | null
+          created_at: string
+          currency: string
+          id: string
+          income_date: string
+          platform_name: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          category?: string | null
+          country_of_source?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          income_date?: string
+          platform_name: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          country_of_source?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          income_date?: string
+          platform_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          country: string | null
+          created_at: string
+          creator_type: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          creator_type?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          creator_type?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      tax_alerts: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          id: string
+          is_read: boolean
+          message: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_read?: boolean
+          message: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_read?: boolean
+          message?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
