@@ -1,10 +1,12 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import {
-  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText,
+  TrendingUp, Wallet, AlertTriangle, FileUp, Send, Bot, Bell, ArrowUpRight, ArrowDownRight, Calendar, X, FileText, Sparkles, Loader2,
 } from "lucide-react";
 import { useSession } from "../lib/session";
 import { AISmartSummary } from "../components/AISmartSummary";
+import { streamChat } from "../lib/streamChat";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -34,7 +36,8 @@ type Msg = { role: "user" | "ai"; text: string };
 
 function Dashboard() {
   const { user } = useSession();
-  const [docs, setDocs] = useState<{ name: string; size: number }[]>([
+  type Doc = { name: string; size: number; insight?: string; parsing?: boolean };
+  const [docs, setDocs] = useState<Doc[]>([
     { name: "Invoice-Acme-Apr.pdf", size: 184320 },
     { name: "Receipt-Office.png", size: 56123 },
   ]);
@@ -51,9 +54,34 @@ function Dashboard() {
   const taxEstimate = 7320;
   const taxRate = ((taxEstimate / totalIncome) * 100).toFixed(1);
 
+  const parseDocByName = async (name: string) => {
+    setDocs((p) => p.map((x) => (x.name === name ? { ...x, parsing: true, insight: "" } : x)));
+    try {
+      await streamChat({
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are an AI document parser for a tax app. Given only a filename, infer the likely document type (invoice, receipt, tax form, bank statement), what fields it likely contains, and 1 concrete tax-relevant action for a freelancer. Respond in 2 short sentences max. No preamble.",
+          },
+          { role: "user", content: `Filename: ${name}. Country: ${user.country}.` },
+        ],
+        onToken: (t) =>
+          setDocs((p) => p.map((x) => (x.name === name ? { ...x, insight: (x.insight ?? "") + t } : x))),
+      });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to parse document");
+    } finally {
+      setDocs((p) => p.map((x) => (x.name === name ? { ...x, parsing: false } : x)));
+    }
+  };
+
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
-    setDocs((prev) => [...prev, ...Array.from(files).map((f) => ({ name: f.name, size: f.size }))]);
+    const newDocs = Array.from(files).map((f) => ({ name: f.name, size: f.size }));
+    setDocs((prev) => [...prev, ...newDocs]);
+    newDocs.forEach((d, i) => setTimeout(() => parseDocByName(d.name), 300 + i * 200));
+    toast("AI is analyzing your documents…", { icon: <Sparkles className="h-4 w-4 text-violet-300" /> });
   };
 
   const send = () => {
@@ -206,18 +234,39 @@ function Dashboard() {
 
           <ul className="mt-4 space-y-2">
             {docs.map((d, i) => (
-              <li key={i} className="flex items-center gap-2 rounded-lg bg-background p-2.5 text-xs">
-                <FileText className="h-4 w-4 shrink-0 text-primary" />
-                <div className="flex-1 truncate">
-                  <p className="truncate font-medium">{d.name}</p>
-                  <p className="text-muted-foreground">{(d.size / 1024).toFixed(1)} KB</p>
+              <li key={i} className="rounded-lg border border-border bg-background p-2.5 text-xs">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 shrink-0 text-primary" />
+                  <div className="flex-1 truncate">
+                    <p className="truncate font-medium">{d.name}</p>
+                    <p className="text-muted-foreground">{(d.size / 1024).toFixed(1)} KB</p>
+                  </div>
+                  <button
+                    onClick={() => parseDocByName(d.name)}
+                    disabled={d.parsing}
+                    title="Parse with AI"
+                    className="flex items-center gap-1 rounded-md border border-violet-400/30 bg-violet-500/10 px-2 py-1 text-[10px] font-medium text-violet-200 transition hover:bg-violet-500/20 disabled:opacity-60"
+                  >
+                    {d.parsing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+                    AI
+                  </button>
+                  <button onClick={() => setDocs((p) => p.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
                 </div>
-                <button onClick={() => setDocs((p) => p.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive">
-                  <X className="h-3.5 w-3.5" />
-                </button>
+                {(d.insight || d.parsing) && (
+                  <div className="mt-2 rounded-md border border-violet-400/20 bg-violet-500/5 p-2 text-[11px] leading-relaxed text-white/80">
+                    <div className="mb-1 flex items-center gap-1 text-[10px] uppercase tracking-wider text-violet-300">
+                      <Sparkles className="h-3 w-3" /> AI insight
+                    </div>
+                    {d.insight || "Analyzing…"}
+                    {d.parsing && <span className="ml-0.5 inline-block h-3 w-1 animate-pulse bg-violet-300 align-middle" />}
+                  </div>
+                )}
               </li>
             ))}
           </ul>
+
         </section>
       </div>
     </main>
