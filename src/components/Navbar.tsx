@@ -6,6 +6,7 @@ import { useTheme } from "../lib/theme";
 
 export function Navbar() {
   const { user, logout } = useSession();
+  const { theme, toggle } = useTheme();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
