@@ -54,10 +54,8 @@ function Dashboard() {
   const taxEstimate = 7320;
   const taxRate = ((taxEstimate / totalIncome) * 100).toFixed(1);
 
-  const parseDoc = async (index: number) => {
-    const d = docs[index];
-    if (!d || d.parsing) return;
-    setDocs((p) => p.map((x, i) => (i === index ? { ...x, parsing: true, insight: "" } : x)));
+  const parseDocByName = async (name: string) => {
+    setDocs((p) => p.map((x) => (x.name === name ? { ...x, parsing: true, insight: "" } : x)));
     try {
       await streamChat({
         messages: [
@@ -66,15 +64,15 @@ function Dashboard() {
             content:
               "You are an AI document parser for a tax app. Given only a filename, infer the likely document type (invoice, receipt, tax form, bank statement), what fields it likely contains, and 1 concrete tax-relevant action for a freelancer. Respond in 2 short sentences max. No preamble.",
           },
-          { role: "user", content: `Filename: ${d.name}. Country: ${user.country}.` },
+          { role: "user", content: `Filename: ${name}. Country: ${user.country}.` },
         ],
         onToken: (t) =>
-          setDocs((p) => p.map((x, i) => (i === index ? { ...x, insight: (x.insight ?? "") + t } : x))),
+          setDocs((p) => p.map((x) => (x.name === name ? { ...x, insight: (x.insight ?? "") + t } : x))),
       });
     } catch (e: any) {
       toast.error(e?.message ?? "Failed to parse document");
     } finally {
-      setDocs((p) => p.map((x, i) => (i === index ? { ...x, parsing: false } : x)));
+      setDocs((p) => p.map((x) => (x.name === name ? { ...x, parsing: false } : x)));
     }
   };
 
