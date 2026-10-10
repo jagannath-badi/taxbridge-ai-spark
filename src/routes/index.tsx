@@ -3,6 +3,7 @@ import { Check, FileText } from "lucide-react";
 import Hero from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
 import { Features, HowItWorks, Stats, Testimonials, ProductPreview, FinalCTA } from "@/components/Sections";
+import { TaxCalculator } from "@/components/TaxCalculator";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,6 +28,7 @@ function Landing() {
   return (
     <main>
       <Hero />
+      <TaxCalculator />
       <Features />
       <HowItWorks />
       <Stats />
