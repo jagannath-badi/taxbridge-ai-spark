@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, FileText } from "lucide-react";
 import Hero from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
-import { TaxCalculator } from "@/components/TaxCalculator";
 import { Features, HowItWorks, Stats, Testimonials, ProductPreview, FinalCTA } from "@/components/Sections";
 
 export const Route = createFileRoute("/")({
@@ -28,7 +27,6 @@ function Landing() {
   return (
     <main>
       <Hero />
-      <TaxCalculator />
       <Features />
       <HowItWorks />
       <Stats />
